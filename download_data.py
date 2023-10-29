@@ -7,7 +7,7 @@ import numpy as np
 
 class DataDownloader:
 
-    def __init__(self, url="yahoo", folder="data", cache_filename="data_{}.csv"):
+    def __init__(self, folder="data", cache_filename="data_{}.csv"):
         """
         Params:
         :param str url: odkaz od kud se mají data stahovat
@@ -16,7 +16,6 @@ class DataDownloader:
         """
 
         # ulozeni parametru
-        self.url = url
         self.cache_filename = cache_filename
         self.path_folder = "./"+ folder
 
@@ -75,3 +74,4 @@ class DataDownloader:
 #############################################
 if __name__ == "__main__":
     downloder = DataDownloader()
+    downloder.download_data("MSFT", "1990-01-01", "2000-01-01")
