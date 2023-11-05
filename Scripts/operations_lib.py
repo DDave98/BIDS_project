@@ -23,4 +23,3 @@ class DefaultOperations():
     def query(client, i_query):
         result = client.query(i_query)
         return result
-    

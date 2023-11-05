@@ -76,13 +76,11 @@ class FinanceDownloader(DataDownloader):
             print(f'An error occurred while Finance Data download process: {e}')
 
     #############################################
-    def get_dict(self, symbols, startDate, endDate):        
-        all_dict = {key: np.array([]) for key in symbols}
+    def get_dict(self, symbols, startDate, endDate):
         for symbol in symbols:
             self.download_data(symbol, startDate, endDate)
             if self.saveData == True:
                 self.save_data(symbol, self.data)
-        return all_dict
 
 
 # Historical Data Downloader
