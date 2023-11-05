@@ -26,4 +26,4 @@ data = ops.get_data(stock_client.client,stock_client.table)
 data = ops.query(
     client = stock_client.client,
     i_query = f"SELECT * FROM {stock_client.table}"
-    )
+)

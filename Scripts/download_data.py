@@ -2,61 +2,54 @@
 # -*- coding: utf-8 -*-
 #author: David Michalica
 
+import os
 import yfinance as yf
 import numpy as np
+from abc import ABC, abstractmethod
+from config import EventDataUrl
+import kaggle
+from kaggle.api.kaggle_api_extended import KaggleApi
 
-class DataDownloader:
+# Abstract class - Interface
+class DataDownloader(ABC):
 
-    def __init__(self, folder="data", cache_filename="data_{}.csv"):
-        """
-        Params:
-        :param str url: odkaz od kud se mají data stahovat
-        :param str folder: nazev slozky kde budou data stazena
-        :param str cache_filename: jmeno souboru ve specifikovane slozce
-        """
+    def __init__(self, folder="data"):
+        self.cache_filename = "data_{}.csv"
+        self.path_folder = "./"+ folder + "/"
 
-        # ulozeni parametru
-        self.cache_filename = cache_filename
-        self.path_folder = "./"+ folder
-
-
-    #############################################
+    @abstractmethod
     def download_data(self, symbol, start_date, end_date):
         """
         metoda stahne do slozky folder vsechny soubory s daty z url
         """
-        try:
-            # Download historical data
-            self.data = yf.download(symbol, start=start_date, end=end_date)
+        pass
 
-            # Display the data
-            print(self.data.head())
-            print(f'Data downloaded')
-            
-        except Exception as e:
-            print(f'An error occurred: {e}')
+    def createFolder(self):
+        # Check if the folder exists
+        if not os.path.exists(self.path_folder):
+            # If it doesn't exist, create the folder
+            os.makedirs(self.path_folder)
 
-
-    #############################################
-    def save_data(self, filename):
+    def save_data(self, filename, data):
         """
         ulozi stazene data do .csv souboru
         
         Params:
         :param filename: nazev souboru, do ktereho data chceme ulozit
         """
-        
+        #create folder if not exist
+        self.createFolder()
+
         try:
             path = self.path_folder + self.cache_filename.replace("{}",filename)
-            self.data.to_csv(f'{path}')
+            data.to_csv(f'{path}')
             print(f'Data saved to {path}')
 
         except Exception as e:
             print(f'An error occurred: {e}')
 
-
-    #############################################
-    def get_dict(self, symbols, start, end, save=False):
+    @abstractmethod
+    def get_dict(self, symbols, start, end):
         """
         vraci zpracovana data pro vybrane prvky, 
         pripadne data ulozi
@@ -64,14 +57,62 @@ class DataDownloader:
         Params:
         :param symbols: umoznuje specifikovat pro, pro ktere chceme vysledek
         """
-        
-        all_dict = dict((key, np.array()) for key in symbols)
+        pass
+
+# Finance Data Downloader
+class FinanceDownloader(DataDownloader):
+
+    def __init__(self, folder="data", save=False):
+        super().__init__(folder)
+        self.saveData = save
+
+    #############################################
+    def download_data(self, symbol, startDate, endDate):
+        try:
+            self.data = yf.download(symbol, start=startDate, end=endDate)
+            print("Finance Data dowloaded successfully")
+            
+        except Exception as e:
+            print(f'An error occurred while Finance Data download process: {e}')
+
+    #############################################
+    def get_dict(self, symbols, startDate, endDate):        
+        all_dict = {key: np.array([]) for key in symbols}
         for symbol in symbols:
-            self.download_data(symbol, start, end)
-            if save == True:
-                self.save_data(symbol)
+            self.download_data(symbol, startDate, endDate)
+            if self.saveData == True:
+                self.save_data(symbol, self.data)
+        return all_dict
+
+
+# Historical Data Downloader
+class EventDowloader(DataDownloader):
+
+    def __init__(self, folder="data", save=False):
+        super().__init__(folder)
+        self.saveData = save
+        self.api = KaggleApi()
+        self.api.authenticate()
+
+    def download_data(self, symbol):
+        try:
+            self.createFolder()
+            self.api.dataset_download_files(dataset=symbol, path="./data", unzip=True)
+            self.data = ""
+            
+        except Exception as e:
+            print(f'An error occurred while Event Data download process: {e}')
+
+    def get_dict(self, symbols):
+        for symbol in symbols:
+            self.download_data(symbol)
 
 #############################################
 if __name__ == "__main__":
-    downloder = DataDownloader()
-    downloder.download_data("MSFT", "1990-01-01", "2000-01-01")
+    fd = FinanceDownloader(save=True)
+    fd.get_dict(["MSFT"], "1990-01-01", "2000-01-01")
+
+    ed = EventDowloader(save=True)
+    source = [member.value for member in EventDataUrl]
+    #ed.download_data(EventDataUrl.BBC, "1990-01-01", "2000-01-01")
+    ed.get_dict(source)
