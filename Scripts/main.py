@@ -10,29 +10,35 @@ from download_data import EventDowloader
 #create client for specific dataset and table
 stock_client = db(ds.STOCKS,tb.STOCK_DATA_LIVE)
 forex_client = db(ds.FOREX,tb.FOREX_DATA_LIVE)
+DBclient = db(ds.NEWS, tb.NEWS)
 
 """
 call functions from DefaultOperations using client created above
 data can be printed directly or in cycle if more than 1 result is present
 """
-#get schema of table
-stock_schema = ops.get_schema(stock_client.table)
-print(stock_schema)
+def print_schema():
+    #get schema of table
+    stock_schema = ops.get_schema(stock_client.table)
+    print(stock_schema)
 
-#forex_schema = ops.get_schema(forex_client.table)
-#print(forex_schema)
+    news_schema = ops.get_schema(DBclient.table)
+    print(news_schema)
 
-#select * from table
-#data = ops.get_data(stock_client.client,stock_client.table)
+def Insert_finance_data():
+    fd = FinanceDownloader(save=True)
+    fd.download_data("MSFT", "1990-01-01", "2000-01-01")
+    source= pd.read_csv("./data/data_MSFT.csv")
 
-#query data
-#data = ops.query(
-#    client = stock_client.client,
-#    i_query = f"SELECT * FROM {stock_client.table}"
-#)
+    for index, row in source.iterrows():
+        data = ops.insert_data(stock_client.client, stock_client.table, ['MSFT', row[1], row[4], row[2], row[3], row[-1], row[-2], row[0]])
+        #print(data)
 
-fd = FinanceDownloader(save=True)
-fd.download_data("MSFT", "1990-01-01", "2000-01-01")
-data= pd.read_csv("./data/data_MSFT.csv")
-print(data)
+def Insert_event_data():
+    pass
 
+# INSERT Finance DATA INTO DB
+
+# INSERT Event DATA INTO DB
+
+# CREATE DIM TABLES (time, events, ticker, type, exchange, sector)
+ 

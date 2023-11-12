@@ -4,3 +4,11 @@ from enum import StrEnum
 class EventDataUrl(StrEnum):
     BBC = "gpreda/bbc-news/"
     MNH = "therohk/million-headlines"
+
+class FinanceDataDownloadParams:
+    types = ["MSFT"]
+    start = "1990-01-01"
+    end = "2000-01-01"
+
+class EventDataDownloadParams:
+    types = [EventDataUrl.BBC, EventDataUrl.MNH]

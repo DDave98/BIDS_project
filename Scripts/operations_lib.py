@@ -14,8 +14,10 @@ class DefaultOperations():
         return result
 
     #Do not use without sending in real data, better to use query(client, i_query)
-    def insert_data(client,table):
-        query = f"INSERT INTO {table} (ticker,price) VALUES ('MSFT',2000)"
+    def insert_data(client,table,data):
+        values_str = ','.join(f"'{v}'" if not isinstance(v, (int, float)) else str(v) for v in data)
+        query = f"INSERT INTO {table} (ticker, open, close, high, low, volume, adj_price, pub_date) VALUES ({values_str})"
+        print(query)
         result = client.query(query)
         return result
 
