@@ -6,7 +6,7 @@ class EventDataUrl(StrEnum):
     MNH = "therohk/million-headlines"
 
 class FinanceDataDownloadParams:
-    types = ["MSFT"]
+    types = ["MSFT", "AAPL", "AMZN", "JNJ"]
     start = "1990-01-01"
     end = "2000-01-01"
 
