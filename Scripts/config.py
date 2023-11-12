@@ -11,4 +11,6 @@ class FinanceDataDownloadParams:
     end = "2000-01-01"
 
 class EventDataDownloadParams:
-    types = [EventDataUrl.BBC, EventDataUrl.MNH]
+    types = [member.value for member in EventDataUrl]
+    names = [member.name for member in EventDataUrl]
+    fileNames = ["bbc_news", "abcnews-date-text"]

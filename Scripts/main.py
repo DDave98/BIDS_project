@@ -8,6 +8,7 @@ from download_data import FinanceDownloader
 from download_data import EventDowloader
 
 from config import FinanceDataDownloadParams
+from config import EventDataDownloadParams
 
 #create client for specific dataset and table
 stock_client = db(ds.STOCKS,tb.STOCK_DATA_LIVE)
@@ -37,25 +38,35 @@ def Get_finance_data():
         fileSource["ticker"] = fileName # add ticker name 
         fileSource = fileSource.iloc[:, [7, 1, 4, 2, 3, 6, 5, 0]] # reorder column
         source = pd.concat([source, fileSource], ignore_index=True)
-
     return source;
 
 def Insert_finance_data(source):
     for index, row in source.iterrows():
         data = ops.insert_data(stock_client.client, stock_client.table, row.to_numpy())
 
+def Get_event_data():
+    fd = EventDowloader(save=True)
+    fd.get_dict(EventDataDownloadParams.types)
+    source = pd.DataFrame()
+
+    for fileName in EventDataDownloadParams.fileNames:
+        fileSource = pd.read_csv(f"./data/{fileName}.csv", sep=",", header=0)
+        source = pd.concat([source, fileSource], ignore_index=True)
+    return source
+
 def Insert_event_data():
     pass
 
 ######################################################
-print_schema()
+#print_schema()
 
 # INSERT Finance DATA INTO DB
-finance_data = Get_finance_data();
-print(finance_data)
+#finance_data = Get_finance_data()
 #Insert_finance_data(finance_data)
 
 # INSERT Event DATA INTO DB
+event_data = Get_event_data()
+print(event_data)
 
 # CREATE DIM TABLES (time, events, ticker, type, exchange, sector)
  

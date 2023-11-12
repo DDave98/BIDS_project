@@ -96,8 +96,7 @@ class EventDowloader(DataDownloader):
         try:
             self.createFolder()
             self.api.dataset_download_files(dataset=symbol, path="./data", unzip=True)
-            self.data = ""
-            
+
         except Exception as e:
             print(f'An error occurred while Event Data download process: {e}')
 
