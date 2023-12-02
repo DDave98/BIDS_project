@@ -30,8 +30,8 @@ def get_stock_data(ticker):
 
 def get_stock_detail(ticker):
     detail = Ticker(ticker, asynchronous=True).get_modules("summaryProfile quoteType")
-    return {
-        "ticker": ticker,
-        "exchange": detail[ticker]["quoteType"]["exchange"],
-        "sector": detail[ticker]["summaryProfile"]["sector"]
-    }
+    return pd.DataFrame({
+        "ticker": [ticker],
+        "exchange": [detail[ticker]["quoteType"]["exchange"]],
+        "sector": [detail[ticker]["summaryProfile"]["sector"]]
+    })
