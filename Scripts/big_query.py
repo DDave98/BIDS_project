@@ -40,11 +40,7 @@ def load_dim_ticker(gcs_uri, dataset_id, table_id):
         autodetect=True, 
         write_disposition="WRITE_APPEND",
     )
-    job_setting.schema = [
-        bigquery.SchemaField("ticker", "STRING"),
-        bigquery.SchemaField("exchange", "STRING"),
-        bigquery.SchemaField("sector", "STRING"),
-    ]
+    job_setting.schema = sc.ticker_dimension_schema
     job_setting.source_format = bigquery.SourceFormat.CSV
 
     dataset_temp = client.dataset(dataset_id)
@@ -67,12 +63,7 @@ def load_dim_date(gcs_uri, dataset_id, table_id):
         autodetect=True, 
         write_disposition="WRITE_APPEND",
     )
-    job_setting.schema = [
-        bigquery.SchemaField("date", "DATE"),
-        bigquery.SchemaField("day", "INTEGER"),
-        bigquery.SchemaField("month", "INTEGER"),
-        bigquery.SchemaField("year", "INTEGER"),
-    ]
+    job_setting.schema = sc.date_dimension_schema
     job_setting.source_format = bigquery.SourceFormat.CSV
 
     dataset_temp = client.dataset(dataset_id)

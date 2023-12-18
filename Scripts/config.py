@@ -12,7 +12,22 @@ client = bigquery.Client()
 ##DATA##
 ###################################################################################################
 #needs some stronger setup
-tickers = ['AAPL','MSFT']
+tickers = [
+    'AAPL', 'ABBV', 'ABT', 'ACN', 'ADBE', 'AIG', 'ALL', 'AMGN', 'AMT', 'AMZN',
+    'AXP', 'BA', 'BAC', 'BIIB', 'BK', 'BKNG', 'BLK', 'BMY', 'BRK.B', 'C',
+    'CAT', 'CHTR', 'CL', 'CMCSA', 'COF', 'COP', 'COST', 'CRM', 'CSCO', 'CVS',
+    'CVX', 'DD', 'DHR', 'DIS', 'DOW', 'DUK', 'EMR', 'EXC', 'F', 'FB', 'FDX',
+    'GD', 'GE', 'GILD', 'GM', 'GOOGL', 'GS', 'HD', 'HON', 'IBM', 'INTC',
+    'JNJ', 'JPM', 'KHC', 'KMI', 'KO', 'LLY', 'LMT', 'LOW', 'MA', 'MCD',
+    'MDLZ', 'MDT', 'MET', 'MMM', 'MO', 'MRK', 'MS', 'MSFT', 'NEE', 'NFLX',
+    'NKE', 'NVDA', 'ORCL', 'OXY', 'PEP', 'PFE', 'PG', 'PM', 'PYPL', 'QCOM',
+    'RTX', 'SBUX', 'SLB', 'SO', 'SPG', 'T', 'TGT', 'TMO', 'TSLA', 'TXN',
+    'UNH', 'UNP', 'UPS', 'USB', 'V', 'VZ', 'WBA', 'WFC', 'WM', 'XOM',
+    'BABA', 'TCEHY', 'PTR', 'BHP', 'TM', 'RIO', 'NVO', 'ASML', 'LVMUY',
+    'SAP', 'ING', 'TOT', 'RY', 'SNE', 'NVS', 'TMUS', 'TSM', 'RYAAY', 'BP',
+    'UL', 'AZN', 'SAN', 'BNS', 'ING', 'MTU', 'UBS', 'CS', 'BBD', 'CHL',
+    'PTR', 'TSM', 'TOT', 'SNY', 'BTI', 'BP', 'UN', 'UL', 'BHP', 'RIO'
+]
 start_date = '2023-01-01'
 end_date = '2023-01-31'
 
