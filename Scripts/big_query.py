@@ -85,6 +85,7 @@ def create_tables():
     create_bigquery_table(cf.client,cf.dataset_name,cf.stock_fact_table,sc.fact_table_schema)
 
 def populate_dim_ticker(data):
+    pass
     name = f'dim_ticker_{data["ticker"][0]}.csv'
     gcs_url = gcs.upload_to_gcs2(data,cf.gcs_bucket_name,name)
     load_dim_ticker(gcs_url,cf.dataset_name,cf.ticker_dim_table)

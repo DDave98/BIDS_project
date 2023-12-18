@@ -1,5 +1,6 @@
+from time import sleep
 import yfinance as yf
-from yahooquery import Ticker
+from polygon import RESTClient
 import json 
 import pandas as pd
 import config as cf
@@ -29,9 +30,13 @@ def get_stock_data(ticker):
     return sanitized_stock_data
 
 def get_stock_detail(ticker):
-    detail = Ticker(ticker, asynchronous=True).get_modules("summaryProfile quoteType")
+    client = RESTClient(api_key="VNVFhfaQwBpSL9X1dOre_leLPN2XnBCW")
+    data = client.get_ticker_details(ticker)
+    print(data.ticker,data.locale,data.sic_description)
+    sleep(18)
     return pd.DataFrame({
-        "ticker": [ticker],
-        "exchange": [detail[ticker]["quoteType"]["exchange"]],
-        "sector": [detail[ticker]["summaryProfile"]["sector"]]
-    })
+        "ticker":[data.ticker],
+        "exchange":[data.locale],
+        "sector":[data.sic_description]
+        })
+    
