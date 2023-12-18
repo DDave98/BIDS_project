@@ -1,4 +1,6 @@
 import yfinance as yf
+from yahooquery import Ticker
+import json 
 import pandas as pd
 import config as cf
 
@@ -25,3 +27,11 @@ def get_stock_data(ticker):
     stock_data = download_stock_data(ticker,cf.start_date,cf.end_date)
     sanitized_stock_data = sanitize_stock_data(stock_data,ticker)
     return sanitized_stock_data
+
+def get_stock_detail(ticker):
+    detail = Ticker(ticker, asynchronous=True).get_modules("summaryProfile quoteType")
+    return pd.DataFrame({
+        "ticker": [ticker],
+        "exchange": [detail[ticker]["quoteType"]["exchange"]],
+        "sector": [detail[ticker]["summaryProfile"]["sector"]]
+    })

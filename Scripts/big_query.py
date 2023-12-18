@@ -2,6 +2,7 @@ from google.cloud import bigquery
 import config as cf
 import upload_to_bucket as gcs
 import create_dates as cd
+import data_download as dd
 import schemas as sc
 
 def create_bigquery_table(client,dataset_id,table_id, schema):
@@ -92,8 +93,9 @@ def create_tables():
     create_bigquery_table(cf.client,cf.dataset_name,cf.ticker_dim_table,sc.ticker_dimension_schema)
     create_bigquery_table(cf.client,cf.dataset_name,cf.stock_fact_table,sc.fact_table_schema)
 
-def populate_dim_ticker():
-    gcs_url = gcs.upload_to_gcs2(cf.tickers_dim,cf.gcs_bucket_name,'dim_ticker.csv')
+def populate_dim_ticker(data):
+    name = f'dim_ticker_{data["ticker"][0]}.csv'
+    gcs_url = gcs.upload_to_gcs2(data,cf.gcs_bucket_name,name)
     load_dim_ticker(gcs_url,cf.dataset_name,cf.ticker_dim_table)
 
 def populate_dim_time():
