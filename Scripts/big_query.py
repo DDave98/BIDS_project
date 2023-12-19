@@ -6,23 +6,23 @@ import data_download as dd
 import schemas as sc
 
 def create_bigquery_table(client,dataset_id,table_id, schema):
+    #Create references to dataset/table
     dataset_temp = client.dataset(dataset_id)
     table_temp = dataset_temp.table(table_id)
-
     table = bigquery.Table(table_temp,schema=schema)
+
+    #Create table
     table = client.create_table(table)
     print(f'Table {table} has been created')
 
 def load_into_table(gcs_uri, dataset_id, table_id):
+    #Create references
     client = bigquery.Client()
-
-    job_setting = bigquery.LoadJobConfig(
-        autodetect=True, 
-        write_disposition="WRITE_APPEND",
-    )
-
     dataset_temp = client.dataset(dataset_id)
     table_temp = dataset_temp.table(table_id)
+
+    #Setup job
+    job_setting = cf.write_append()
     job = client.load_table_from_uri(
         gcs_uri,
         table_temp,
@@ -36,10 +36,7 @@ def load_into_table(gcs_uri, dataset_id, table_id):
 def load_dim_ticker(gcs_uri, dataset_id, table_id):
     client = bigquery.Client()
 
-    job_setting = bigquery.LoadJobConfig(
-        autodetect=True, 
-        write_disposition="WRITE_APPEND",
-    )
+    job_setting = cf.write_append()
     job_setting.schema = sc.ticker_dimension_schema
     job_setting.source_format = bigquery.SourceFormat.CSV
 

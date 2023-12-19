@@ -27,3 +27,9 @@ tickers = [
 ]
 start_date = '2023-01-01'
 end_date = '2023-01-31'
+
+def write_append():
+    return bigquery.LoadJobConfig(
+        autodetect=True, 
+        write_disposition="WRITE_APPEND",
+    )
