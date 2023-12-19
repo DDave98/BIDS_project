@@ -92,11 +92,11 @@ def populate_dim_ticker(data):
 
 def populate_dim_time():
     dates = cd.create_dataframe(cf.start_date,cf.end_date)
-    gcs_url = gcs.upload_to_gcs2(dates,cf.gcs_bucket_name,'dim_date.csv')
+    gcs_url = gcs.upload_to_gcs_no_header(dates,cf.gcs_bucket_name,'dim_date.csv')
     load_dim_date(gcs_url,cf.dataset_name,cf.date_dim_table)
 
 def upload_fact_stocks(sanitized_stock_data,ticker):
-    gcs_fact_url = gcs.upload_to_gcs(sanitized_stock_data,cf.gcs_bucket_name,f'{ticker}_data.csv')
+    gcs_fact_url = gcs.upload_to_gcs_with_header(sanitized_stock_data,cf.gcs_bucket_name,f'{ticker}_data.csv')
     load_into_table(gcs_fact_url,cf.dataset_name,cf.stock_fact_table)
 
 def populate_dims():

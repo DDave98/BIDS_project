@@ -2,7 +2,7 @@ from google.cloud import storage
 from io import BytesIO
 import pandas as pd
 
-def upload_to_gcs(data:pd.DataFrame,bucket_name:str,blob_name:str) -> str:
+def upload_to_gcs_with_header(data:pd.DataFrame,bucket_name:str,blob_name:str) -> str:
     client = storage.Client()
     bucket = client.get_bucket(bucket_name)
 
@@ -19,7 +19,7 @@ def upload_to_gcs(data:pd.DataFrame,bucket_name:str,blob_name:str) -> str:
 
     return blob_url
 
-def upload_to_gcs2(data:pd.DataFrame,bucket_name:str,blob_name:str) -> str:
+def upload_to_gcs_no_header(data:pd.DataFrame,bucket_name:str,blob_name:str) -> str:
     client = storage.Client()
     bucket = client.get_bucket(bucket_name)
 
