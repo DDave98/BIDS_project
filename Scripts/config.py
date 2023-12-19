@@ -9,9 +9,6 @@ stock_fact_table = 'stocks_v2'
 
 client = bigquery.Client()
 
-##DATA##
-###################################################################################################
-#needs some stronger setup
 tickers = [
     'AAPL', 'ABBV', 'ABT', 'ACN', 'ADBE', 'AIG', 'ALL', 'AMGN', 'AMT', 'AMZN',
     'AXP', 'BA', 'BAC', 'BIIB', 'BK', 'BKNG', 'BLK', 'BMY', 'BRK.B', 'C',
@@ -30,12 +27,3 @@ tickers = [
 ]
 start_date = '2023-01-01'
 end_date = '2023-01-31'
-
-
-#to be downloaded from yahoofinance API
-tickers_dim = pd.DataFrame({
-    'ticker':['AAPL'],
-    'exchange':['NASDAQ'],
-    'sector':['technology'],
-}) 
-###################################################################################################
