@@ -2,9 +2,7 @@
 tvorba datových skladů 
 
 # requirements
-pip install google-cloud-storage
-pip install google-cloud-bigquery
-pip install kaggle --user
+pip install -r requirements.txt
 
 # authentication
 There is a service account which is described in creds.json (not public)
