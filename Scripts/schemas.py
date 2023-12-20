@@ -56,5 +56,7 @@ news_dimension_schema = [
     bigquery.SchemaField("date","DATE"),
     bigquery.SchemaField("ticker", "STRING", mode="REQUIRED"),
     bigquery.SchemaField("text","STRING"),
-    bigquery.SchemaField("sentiment","FLOAT"),
+    bigquery.SchemaField("compound","FLOAT"),
+    bigquery.SchemaField("source","STRING"),
+    bigquery.SchemaField("url","STRING"),
 ]
