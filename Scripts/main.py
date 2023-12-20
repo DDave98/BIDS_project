@@ -12,4 +12,5 @@ for ticker in cf.tickers:
     sanitized_stock_data = dd.get_stock_data(ticker)
     bq.upload_fact_stocks(sanitized_stock_data, ticker)
     #bq.populate_dim_ticker(dd.get_stock_detail(ticker))
+    #bq.populate_dim_news(dd.get_news_data(ticker)) # new added
     

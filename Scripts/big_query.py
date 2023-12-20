@@ -77,9 +77,9 @@ def load_dim_date(gcs_uri, dataset_id, table_id):
     print(f'Job {job} has been finished')
 
 def create_tables():
-    create_bigquery_table(cf.client,cf.dataset_name,cf.date_dim_table,sc.date_dimension_schema)
-    create_bigquery_table(cf.client,cf.dataset_name,cf.ticker_dim_table,sc.ticker_dimension_schema)
-    create_bigquery_table(cf.client,cf.dataset_name,cf.stock_fact_table,sc.fact_table_schema)
+    create_bigquery_table(cf.client,cf.dataset_name,cf.date_dim_table,sc.date_dimension_schema)         # dim table - date 
+    create_bigquery_table(cf.client,cf.dataset_name,cf.ticker_dim_table,sc.ticker_dimension_schema)     # dim table - ticker
+    create_bigquery_table(cf.client,cf.dataset_name,cf.stock_fact_table,sc.fact_table_schema)           # fac table - stock
 
 def populate_dim_ticker(data):
     pass

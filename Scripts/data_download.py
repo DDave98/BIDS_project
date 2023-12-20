@@ -40,3 +40,5 @@ def get_stock_detail(ticker):
         "sector":[data.sic_description]
         })
     
+def download_news_data():
+    return 1

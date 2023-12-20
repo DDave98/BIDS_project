@@ -6,6 +6,7 @@ dataset_name = 'xpech_michalica'
 date_dim_table = 'dim_date'
 ticker_dim_table = 'dim_ticker'
 stock_fact_table = 'stocks_v2'
+news_dim_table = 'dim_news'
 
 client = bigquery.Client()
 
