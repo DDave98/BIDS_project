@@ -68,6 +68,6 @@ def get_news_data(ticker):
     news_data = parse_news_data(web_page, ticker)
 
     df = pd.DataFrame(news_data)    
-    print(df)
+    return df
 
 get_news_data(cf.tickers[9])
