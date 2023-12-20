@@ -118,6 +118,6 @@ def upload_fact_stocks(sanitized_stock_data,ticker):
 
 def populate_dim_news(data):
     name = f'dim_news.csv'
-    gcs_url = gcs.upload_to_gcs_with_header(data,cf.gcs_bucket_name,name)
-    load_dim_ticker(gcs_url,cf.dataset_name,cf.news_dim_table)
+    gcs_url = gcs.upload_to_gcs_no_header(data,cf.gcs_bucket_name,name)
+    load_dim_news(gcs_url,cf.dataset_name,cf.news_dim_table)
 

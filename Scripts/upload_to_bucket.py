@@ -6,7 +6,7 @@ def upload_to_gcs_with_header(data:pd.DataFrame,bucket_name:str,blob_name:str) -
     client = storage.Client()
     bucket = client.get_bucket(bucket_name)
 
-    csv_data = data.to_csv(header=True)
+    csv_data = data.to_csv(header=True, index=False)
     print(csv_data)
     csv_bytes = BytesIO(csv_data.encode('utf-8'))
 

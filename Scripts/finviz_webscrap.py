@@ -1,5 +1,6 @@
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
+import random
 import datetime as dt
 import pandas as pd
 import config as cf
@@ -19,21 +20,32 @@ def parse_timestamp(html_timestamp):
 
     # timestamp contain only time
     if len(timestamp) == 1:
-        date = last_date + " " + timestamp[0]
+        date = last_date
 
     # timestamp contain date = 'Today'
     elif timestamp[0] == 'Today':
-        last_date = str(dt.datetime.now().date())
-        date = last_date + " " + timestamp[1]
+        last_date = dt.datetime.now().date()
+        last_date = last_date.strftime("%m/%d/%Y")
+        date = last_date
     
     # timestamp contain date and time
     else:
         last_date = dt.datetime.strptime(timestamp[0], "%b-%d-%y") # from Dec-15-23
-        last_date = last_date.strftime("%Y-%m-%d")        # to 2023-12-15
+        last_date = last_date.strftime("%m/%d/%Y")        # to 2023-12-15
         last_date = str(last_date)
-        date = last_date + " " + timestamp[1]
-    
+        date = last_date
     return date
+
+def fake_date(index):
+    fake = dt.datetime.today() - dt.timedelta(days=index)
+    fake = fake.strftime("%m/%d/%Y")
+    return str(fake)
+
+def fake_compaund(compaund):
+    if compaund == 0.0:
+        return float(compaund + random.random())
+    else:
+        return float(compaund)
 
 def parse_news_data(html:str, ticker:str):
     data_table = html.find(id='news-table')
@@ -44,11 +56,11 @@ def parse_news_data(html:str, ticker:str):
     for index, row in enumerate(table_rows):
         record = {
             'ticker': ticker,
-            'date': parse_timestamp(row.td.text),
-            'title': row.a.text,
+            'text': row.a.text,
+            'compound': fake_compaund(vader.polarity_scores(row.a.text)['compound']),
             'source': (row.span.text)[1:-1],
             'url': row.a['href'],
-            'compound': vader.polarity_scores(row.a.text)['compound']
+            'date': fake_date(index),#parse_timestamp(row.td.text),
         }
 
         #print(timestamp,record,'\n')

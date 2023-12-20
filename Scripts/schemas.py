@@ -53,10 +53,10 @@ ema50_dimension_schema = [
 ]
 
 news_dimension_schema = [
-    bigquery.SchemaField("date","DATE"),
     bigquery.SchemaField("ticker", "STRING", mode="REQUIRED"),
     bigquery.SchemaField("text","STRING"),
     bigquery.SchemaField("compound","FLOAT"),
     bigquery.SchemaField("source","STRING"),
     bigquery.SchemaField("url","STRING"),
+    bigquery.SchemaField("date","DATE"),
 ]
