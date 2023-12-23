@@ -10,9 +10,9 @@ def create_bigquery_table(client,dataset_id,table_id, schema):
     dataset_temp = client.dataset(dataset_id)
     table_temp = dataset_temp.table(table_id)
     table = bigquery.Table(table_temp,schema=schema)
-    if table_id == "stocks_v2":
+    if table_id == "stocks":
         table.time_partitioning = bigquery.TimePartitioning(
-            type_= bigquery.TimePartitioningType.DAY,
+            type_= bigquery.TimePartitioningType.MONTH,
             field="date"
         )
         table.clustering_fields = ["ticker"]
@@ -109,7 +109,7 @@ def create_tables():
 
 def populate_dim_ticker(data):
     name = f'dim_ticker_{data["ticker"][0]}.csv'
-    gcs_url = gcs.upload_to_gcs2(data,cf.gcs_bucket_name,name)
+    gcs_url = gcs.upload_to_gcs_no_header(data,cf.gcs_bucket_name,name)
     load_dim_ticker(gcs_url,cf.dataset_name,cf.ticker_dim_table)
 
 def populate_dim_time():

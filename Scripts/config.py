@@ -3,9 +3,10 @@ import pandas as pd
 
 gcs_bucket_name = 'ingest_bucket_xpech_michalica'
 dataset_name = 'xpech_michalica'
+
 date_dim_table = 'dim_date'
 ticker_dim_table = 'dim_ticker'
-stock_fact_table = 'stocks_v2'
+stock_fact_table = 'stocks'
 news_dim_table = 'dim_news'
 
 client = bigquery.Client()
@@ -26,8 +27,8 @@ tickers = [
     'UL', 'AZN', 'SAN', 'BNS', 'ING', 'MTU', 'UBS', 'CS', 'BBD', 'CHL',
     'PTR', 'TSM', 'TOT', 'SNY', 'BTI', 'BP', 'UN', 'UL', 'BHP', 'RIO'
 ]
-start_date = '2023-01-01'
-end_date = '2023-01-31'
+start_date = '2000-01-01'
+end_date = '2023-12-23'
 
 def write_append():
     return bigquery.LoadJobConfig(

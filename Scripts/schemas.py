@@ -14,15 +14,14 @@ ticker_dimension_schema = [
 ]
 
 fact_table_schema = [
-    bigquery.SchemaField("date", "DATE", mode="REQUIRED"),
-    bigquery.SchemaField("ticker", "STRING", mode="REQUIRED"),
+    bigquery.SchemaField("date", "DATE"),
+    bigquery.SchemaField("ticker", "STRING"),
     bigquery.SchemaField("open", "FLOAT"),
     bigquery.SchemaField("close", "FLOAT"),
     bigquery.SchemaField("high", "FLOAT"),
     bigquery.SchemaField("low", "FLOAT"),
     bigquery.SchemaField("adj_close", "FLOAT"),
     bigquery.SchemaField("volume", "INTEGER"),
-    bigquery.SchemaField("type", "STRING", mode="REQUIRED"),
 ]
 
 correlation_table_schema = [
@@ -36,9 +35,6 @@ sector_dimension_schema = [
     bigquery.SchemaField("sector", "STRING", mode="REQUIRED"),
 ]
 
-type_dimension_schema = [
-    bigquery.SchemaField("type", "STRING", mode="REQUIRED"),
-]
 
 ema10_dimension_schema = [
     bigquery.SchemaField("date","DATE"),

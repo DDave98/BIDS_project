@@ -33,7 +33,7 @@ def get_stock_detail(ticker):
     client = RESTClient(api_key="VNVFhfaQwBpSL9X1dOre_leLPN2XnBCW")
     data = client.get_ticker_details(ticker)
     print(data.ticker,data.locale,data.sic_description)
-    sleep(18)
+    sleep(12)
     return pd.DataFrame({
         "ticker":[data.ticker],
         "exchange":[data.locale],
