@@ -10,7 +10,12 @@ def create_bigquery_table(client,dataset_id,table_id, schema):
     dataset_temp = client.dataset(dataset_id)
     table_temp = dataset_temp.table(table_id)
     table = bigquery.Table(table_temp,schema=schema)
-
+    if table_id == "stocks_v2":
+        table.time_partitioning = bigquery.TimePartitioning(
+            type_= bigquery.TimePartitioningType.DAY,
+            field="date"
+        )
+        table.clustering_fields = ["ticker"]
     #Create table
     table = client.create_table(table)
     print(f'Table {table} has been created')
@@ -99,7 +104,7 @@ def load_dim_date(gcs_uri, dataset_id, table_id):
 def create_tables():
     create_bigquery_table(cf.client,cf.dataset_name,cf.date_dim_table,sc.date_dimension_schema)         # dim table - date 
     create_bigquery_table(cf.client,cf.dataset_name,cf.ticker_dim_table,sc.ticker_dimension_schema)     # dim table - ticker
-    create_bigquery_table(cf.client,cf.dataset_name,cf.news_dim_table,sc.news_dimension_schema)     # dim table - news
+    create_bigquery_table(cf.client,cf.dataset_name,cf.news_dim_table,sc.news_dimension_schema)         # dim table - news
     create_bigquery_table(cf.client,cf.dataset_name,cf.stock_fact_table,sc.fact_table_schema)           # fac table - stock
 
 def populate_dim_ticker(data):
