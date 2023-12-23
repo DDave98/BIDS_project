@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW xpech_michalica.test_view AS
+CREATE MATERIALIZED VIEW IF NOT EXISTS xpech_michalica.overall_view AS
   SELECT 
     dt.ticker,
     ds.sector,

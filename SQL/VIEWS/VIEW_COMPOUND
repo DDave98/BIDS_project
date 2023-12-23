@@ -1,0 +1,21 @@
+CREATE MATERIALIZED VIEW IF NOT EXISTS xpech_michalica.compound_view AS
+SELECT
+  dn.compound,
+  dt.ticker,
+  dd.date,
+  st.open,
+  st.volume
+FROM
+  `imperial-sensor-400812.xpech_michalica.dim_news` dn
+JOIN
+  `xpech_michalica.stocks_v2` st
+ON
+  dn.ticker = st.ticker
+JOIN
+  xpech_michalica.dim_ticker dt
+ON
+  st.ticker = dt.ticker
+JOIN
+  xpech_michalica.dim_date dd
+ON
+  dd.date = st.date
