@@ -1,3 +1,4 @@
+CREATE OR REPLACE TABLE bids_xpech_michalica.correlate AS
 SELECT * FROM
 (
   SELECT 
@@ -5,7 +6,7 @@ SELECT * FROM
     b.ticker stock_b,
     a.data price_stock_a,
     b.data price_stock_b,
-    COALESCE(a.date, b.date) datum,
+    COALESCE(a.date, b.date) date,
     CORR(a.data, b.data) OVER (ORDER BY a.date) correlation
     FROM
     (
@@ -13,7 +14,7 @@ SELECT * FROM
         date, 
         AVG(open) data, 
         ticker
-      FROM `xpech_michalica.stocks_v2`
+      FROM `bids_xpech_michalica.assets`
       WHERE 
         ticker = 'AAPL'
       GROUP BY 
@@ -25,7 +26,7 @@ SELECT * FROM
         date, 
         AVG(open) data, 
         ticker
-      FROM `xpech_michalica.stocks_v2`
+      FROM `bids_xpech_michalica.assets`
       WHERE 
         ticker = 'MSFT'
       GROUP BY 
