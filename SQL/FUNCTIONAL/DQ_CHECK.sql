@@ -1,7 +1,7 @@
-CREATE OR REPLACE TABLE `imperial-sensor-400812.xpech_michalica.stocks_v2` AS
+CREATE OR REPLACE TABLE `bids_xpech_michalica.assets` AS
 SELECT * EXCEPT(rn)
 FROM (
   SELECT *, ROW_NUMBER() OVER(PARTITION BY ticker ORDER BY ticker) rn
-  FROM `imperial-sensor-400812.xpech_michalica.stocks_v2`
+  FROM `bids_xpech_michalica.assets`
 ) 
 WHERE rn = 1 
