@@ -10,3 +10,5 @@ File creds.json needs to be present and linked in env variables as GOOGLE_APPLIC
 
 There is a service account which is described in kaggle.json (not public)
 File kaggle.json needs to be present in user dir (example: C:/users/user/.kaggle/kaggle.json)
+
+Done
